@@ -1,0 +1,48 @@
+*******************html*****************************
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">              
+          <div class="card-body">
+              <full-calendar
+              #calendar
+              defaultView="dayGridMonth"
+              [header]="{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              }"
+              [plugins]="calendarPlugins"
+              
+              [(events)]="calendarEvents"
+              (dateClick)="handleDateClick($event)"
+              (eventClick)="handleEventClick($event)"
+            ></full-calendar>
+          </div>
+        </div>
+      </div>            
+    </div>
+  </div>
+</div>
+
+
+****************on init()***************
+  ngOnInit(){
+    this.gestion.getAll().subscribe(
+      (Response:Hackaton[])=>{
+        this.data=Response;
+        console.log(this.data);
+        this.data.forEach(element => {
+          this.calendarEvents = this.calendarEvents.concat({
+            title: element.intitule.toString(),
+            //backgroundColor:"blue",
+            start: element.date_debut,
+            end:element.date_fin,
+            allDay: true
+          })  
+        });
+       
+      }
+    );
+  }  
